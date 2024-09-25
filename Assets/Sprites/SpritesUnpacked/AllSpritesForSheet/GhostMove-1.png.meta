@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c666aa8e3b0434a74a165da570f4b86f
+guid: fc302190417b74d67b5f7df8eab19a76
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 481643630908768242
-    second: PacSprite_0
+      213: 5716921208971764647
+    second: GhostMove-1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PacSprite_0
+      name: GhostMove-1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -114,8 +114,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2ff75a894542fa600800000000000000
-      internalID: 481643630908768242
+      spriteID: 7a3a8adcc85965f40800000000000000
+      internalID: 5716921208971764647
       vertices: []
       indices: 
       edges: []

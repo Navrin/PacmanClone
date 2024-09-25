@@ -1,0 +1,527 @@
+{
+  "sprites": [
+    {
+      "fileName": "cherry-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "fileName": "cherry-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 0
+    },
+    {
+      "fileName": "cherry-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 32,
+      "y": 0
+    },
+    {
+      "fileName": "ghosteyes-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 48,
+      "y": 0
+    },
+    {
+      "fileName": "ghosteyes-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 64,
+      "y": 0
+    },
+    {
+      "fileName": "ghosteyes-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 80,
+      "y": 0
+    },
+    {
+      "fileName": "ghosteyes-4.png",
+      "width": 16,
+      "height": 16,
+      "x": 96,
+      "y": 0
+    },
+    {
+      "fileName": "ghostmove-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 112,
+      "y": 0
+    },
+    {
+      "fileName": "ghostmove-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 128,
+      "y": 0
+    },
+    {
+      "fileName": "ghostmove-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 16
+    },
+    {
+      "fileName": "ghostscared-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 16
+    },
+    {
+      "fileName": "ghostscared-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 32,
+      "y": 16
+    },
+    {
+      "fileName": "ghostscared-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 48,
+      "y": 16
+    },
+    {
+      "fileName": "life-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 64,
+      "y": 16
+    },
+    {
+      "fileName": "life-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 80,
+      "y": 16
+    },
+    {
+      "fileName": "life-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 96,
+      "y": 16
+    },
+    {
+      "fileName": "pac-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 112,
+      "y": 16
+    },
+    {
+      "fileName": "pac-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 128,
+      "y": 16
+    },
+    {
+      "fileName": "pac-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-10.png",
+      "width": 16,
+      "height": 16,
+      "x": 32,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-11.png",
+      "width": 16,
+      "height": 16,
+      "x": 48,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-12.png",
+      "width": 16,
+      "height": 16,
+      "x": 64,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-13.png",
+      "width": 16,
+      "height": 16,
+      "x": 80,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-14.png",
+      "width": 16,
+      "height": 16,
+      "x": 96,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-15.png",
+      "width": 16,
+      "height": 16,
+      "x": 112,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-16.png",
+      "width": 16,
+      "height": 16,
+      "x": 128,
+      "y": 32
+    },
+    {
+      "fileName": "pacdeath-17.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-18.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-19.png",
+      "width": 16,
+      "height": 16,
+      "x": 32,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 48,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 64,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-4.png",
+      "width": 16,
+      "height": 16,
+      "x": 80,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-5.png",
+      "width": 16,
+      "height": 16,
+      "x": 96,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-6.png",
+      "width": 16,
+      "height": 16,
+      "x": 112,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-7.png",
+      "width": 16,
+      "height": 16,
+      "x": 128,
+      "y": 48
+    },
+    {
+      "fileName": "pacdeath-8.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 64
+    },
+    {
+      "fileName": "pacdeath-9.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 64
+    },
+    {
+      "fileName": "pellet-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 32,
+      "y": 64
+    },
+    {
+      "fileName": "powerpellet-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 48,
+      "y": 64
+    },
+    {
+      "fileName": "powerpellet-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 64,
+      "y": 64
+    },
+    {
+      "fileName": "powerpellet-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 80,
+      "y": 64
+    },
+    {
+      "fileName": "wall-1.png",
+      "width": 16,
+      "height": 16,
+      "x": 96,
+      "y": 64
+    },
+    {
+      "fileName": "wall-10.png",
+      "width": 16,
+      "height": 16,
+      "x": 112,
+      "y": 64
+    },
+    {
+      "fileName": "wall-11.png",
+      "width": 16,
+      "height": 16,
+      "x": 128,
+      "y": 64
+    },
+    {
+      "fileName": "wall-12.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 80
+    },
+    {
+      "fileName": "wall-13.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 80
+    },
+    {
+      "fileName": "wall-14.png",
+      "width": 16,
+      "height": 16,
+      "x": 32,
+      "y": 80
+    },
+    {
+      "fileName": "wall-15.png",
+      "width": 16,
+      "height": 16,
+      "x": 48,
+      "y": 80
+    },
+    {
+      "fileName": "wall-16.png",
+      "width": 16,
+      "height": 16,
+      "x": 64,
+      "y": 80
+    },
+    {
+      "fileName": "wall-17.png",
+      "width": 16,
+      "height": 16,
+      "x": 80,
+      "y": 80
+    },
+    {
+      "fileName": "wall-18.png",
+      "width": 16,
+      "height": 16,
+      "x": 96,
+      "y": 80
+    },
+    {
+      "fileName": "wall-19.png",
+      "width": 16,
+      "height": 16,
+      "x": 112,
+      "y": 80
+    },
+    {
+      "fileName": "wall-2.png",
+      "width": 16,
+      "height": 16,
+      "x": 128,
+      "y": 80
+    },
+    {
+      "fileName": "wall-20.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 96
+    },
+    {
+      "fileName": "wall-21.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 96
+    },
+    {
+      "fileName": "wall-22.png",
+      "width": 16,
+      "height": 16,
+      "x": 32,
+      "y": 96
+    },
+    {
+      "fileName": "wall-23.png",
+      "width": 16,
+      "height": 16,
+      "x": 48,
+      "y": 96
+    },
+    {
+      "fileName": "wall-24.png",
+      "width": 16,
+      "height": 16,
+      "x": 64,
+      "y": 96
+    },
+    {
+      "fileName": "wall-25.png",
+      "width": 16,
+      "height": 16,
+      "x": 80,
+      "y": 96
+    },
+    {
+      "fileName": "wall-26.png",
+      "width": 16,
+      "height": 16,
+      "x": 96,
+      "y": 96
+    },
+    {
+      "fileName": "wall-27.png",
+      "width": 16,
+      "height": 16,
+      "x": 112,
+      "y": 96
+    },
+    {
+      "fileName": "wall-28.png",
+      "width": 16,
+      "height": 16,
+      "x": 128,
+      "y": 96
+    },
+    {
+      "fileName": "wall-29.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 112
+    },
+    {
+      "fileName": "wall-3.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 112
+    },
+    {
+      "fileName": "wall-30.png",
+      "width": 16,
+      "height": 16,
+      "x": 32,
+      "y": 112
+    },
+    {
+      "fileName": "wall-31.png",
+      "width": 16,
+      "height": 16,
+      "x": 48,
+      "y": 112
+    },
+    {
+      "fileName": "wall-32.png",
+      "width": 16,
+      "height": 16,
+      "x": 64,
+      "y": 112
+    },
+    {
+      "fileName": "wall-4.png",
+      "width": 16,
+      "height": 16,
+      "x": 80,
+      "y": 112
+    },
+    {
+      "fileName": "wall-5.png",
+      "width": 16,
+      "height": 16,
+      "x": 96,
+      "y": 112
+    },
+    {
+      "fileName": "wall-6.png",
+      "width": 16,
+      "height": 16,
+      "x": 112,
+      "y": 112
+    },
+    {
+      "fileName": "wall-7.png",
+      "width": 16,
+      "height": 16,
+      "x": 128,
+      "y": 112
+    },
+    {
+      "fileName": "wall-8.png",
+      "width": 16,
+      "height": 16,
+      "x": 0,
+      "y": 128
+    },
+    {
+      "fileName": "wall-9.png",
+      "width": 16,
+      "height": 16,
+      "x": 16,
+      "y": 128
+    }
+  ],
+  "packMode": "grid",
+  "padding": 0,
+  "backgroundColor": "rgba(0, 0, 0, 0)",
+  "spriteSheetWidth": 144,
+  "spriteSheetHeight": 144
+}
