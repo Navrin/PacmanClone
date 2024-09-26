@@ -73,8 +73,7 @@ public class PacMovementHandler : MonoBehaviour
         StartCoroutine(nameof(PacMoveCycle));
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (_activeTween != null)
         {
@@ -133,8 +132,7 @@ public class PacMovementHandler : MonoBehaviour
     void RequestMove(Direction direction)
     {
         // change to enqueue 
-        // nvm, animation should be cancellable
-        // if (_activeTween != null) return;
+        if (_activeTween != null) return;
         
         _activeTween = new TweenRequest(
             moveTarget.position,
