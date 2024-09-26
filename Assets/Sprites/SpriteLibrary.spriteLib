@@ -438,6 +438,37 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 917382659, guid: e3d79ee515d0d40818b57b4dc2de3559, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 3
+  - m_Name: Wall Proc
+    m_Hash: 876391062
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Inner Corner
+      m_Hash: 469709048
+      m_Sprite: {fileID: -215824606, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -215824606, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+    - m_Name: Inner Wall
+      m_Hash: 482595835
+      m_Sprite: {fileID: 1539561797, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1539561797, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+    - m_Name: Junction
+      m_Hash: 611803428
+      m_Sprite: {fileID: 1329714087274944336, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1329714087274944336, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+    - m_Name: Outer Corner
+      m_Hash: 161073078
+      m_Sprite: {fileID: -4280754639841998742, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -4280754639841998742, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+    - m_Name: Outer Wall
+      m_Hash: 305353459
+      m_Sprite: {fileID: -7718529216863013823, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -7718529216863013823, guid: 30d42f4139fbf47b697ad38ee6fd8a73, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 5
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 638628649370922890
+  m_ModificationHash: 638629466418980800
   m_Version: 1
