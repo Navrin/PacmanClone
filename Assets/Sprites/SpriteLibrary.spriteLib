@@ -678,6 +678,57 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 248366505, guid: f74981c581ea149fd829a8dd9d62c577, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 4
+  - m_Name: Ghost Scared Transition
+    m_Hash: 635493701
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: ExtraGhostScaredTransitionPacked_0
+      m_Hash: 144777233
+      m_Sprite: {fileID: -1563202789423023820, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1563202789423023820, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    - m_Name: ExtraGhostScaredTransitionPacked_1
+      m_Hash: 1067847815
+      m_Sprite: {fileID: -2178702656933213126, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2178702656933213126, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    - m_Name: ExtraGhostScaredTransitionPacked_2
+      m_Hash: 649019709
+      m_Sprite: {fileID: 2355083906447770347, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 2355083906447770347, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    - m_Name: ExtraGhostScaredTransitionPacked_3
+      m_Hash: 296251819
+      m_Sprite: {fileID: -3602658377055444945, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -3602658377055444945, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    - m_Name: ExtraGhostScaredTransitionPacked_4
+      m_Hash: 265085960
+      m_Sprite: {fileID: -1206791621, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1206791621, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    - m_Name: ExtraGhostScaredTransitionPacked_5
+      m_Hash: 952882334
+      m_Sprite: {fileID: -1821154070, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1821154070, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    - m_Name: ExtraGhostScaredTransitionPacked_6
+      m_Hash: 566396196
+      m_Sprite: {fileID: -736978258, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -736978258, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    - m_Name: ExtraGhostScaredTransitionPacked_7
+      m_Hash: 382055858
+      m_Sprite: {fileID: -93593405, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -93593405, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    - m_Name: ExtraGhostScaredTransitionPacked_8
+      m_Hash: 108701731
+      m_Sprite: {fileID: -1816835492, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1816835492, guid: d3ca51b929c2042ac9d29f92d6efcdb1, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 9
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 638630357664021690
+  m_ModificationHash: 638630408495432090
   m_Version: 1
