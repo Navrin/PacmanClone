@@ -6,140 +6,91 @@ using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-class TweenRequest
-{
-    public Vector3 StartPos { get; private set; }
-    public Vector3 EndPos {get; private set;}
-    public float TimeStart { get; private set; }
-
-    public TweenRequest(Vector2 startPos, Vector2 endPos, float timeStart)
-    {
-        this.StartPos = startPos;
-        this.EndPos = endPos;
-        this.TimeStart = timeStart;
-    }
-}
-
-enum Direction
-{
-    North,
-    East,
-    South,
-    West
-}
-
-static class DirectionMethods
-{
-    public static Vector3 ToVec(this Direction direction)
-    {
-        return direction switch
-        {
-            Direction.North => new Vector3(0, 1, 0),
-            Direction.East => new Vector3(1, 0, 0),
-            Direction.South => new Vector3(0, -1, 0),
-            Direction.West => new Vector3(-1, 0, 0),
-            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
-        };
-    }
-
-    
-    public static String AnimTrigger(this Direction direction)
-    {
-        return direction switch
-        {
-            Direction.North => "MoveNorth",
-            Direction.East => "MoveEast",
-            Direction.South => "MoveSouth",
-            Direction.West => "MoveWest",
-            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
-        };
-    }
-}
 
 public class PacMovementHandler : MonoBehaviour
 {
- 
+    private static readonly int Death = Animator.StringToHash("Death");
+    private static readonly int MoveAbs = Animator.StringToHash("MoveAbs");
 
-    private TweenRequest _activeTween;
-    public Transform moveTarget;
+    public MoveTweener moveTweener;
     public Animator pacAnimator;
     public AudioSource pacSound;
-    public float moveTime = 0.3f;
+    public bool shouldCycleAnimate = false;
+    public bool shouldDie = false;
+
+    private Direction _lastDirection;
     
     // Start is called before the first frame update
     void Start()
     {
-
-        StartCoroutine(nameof(PacMoveCycle));
-    }
-
-    void FixedUpdate()
-    {
-        if (_activeTween != null)
+        moveTweener ??= GetComponent<MoveTweener>();
+        moveTweener.OnTweenActive += OnTweenIsActive;
+        moveTweener.OnTweenComplete += OnTweenComplete;
+        moveTweener.OnTweenStart += OnTweenStart;
+        
+        if (shouldCycleAnimate)
         {
-            
-            var nextPos = Vector3.Lerp(
-                _activeTween.StartPos, 
-                _activeTween.EndPos, 
-                (Time.time - _activeTween.TimeStart) / moveTime
-            );
-            
-            moveTarget.position = nextPos;
-            if (!pacSound.isPlaying) pacSound.Play();
-            pacAnimator.SetFloat("MoveAbs", 1.0f);
-            if (Time.time - _activeTween.TimeStart > moveTime)
-            {
-                _activeTween = null;
-                pacAnimator.SetFloat("MoveAbs", 0.0f);
-                pacSound.Stop();
-            }
+            StartCoroutine(nameof(PacMoveCycle));
+        }
+        else if (shouldDie)
+        {
+            pacAnimator.SetTrigger(Death);
         }
     }
 
+    void OnTweenIsActive()
+    {
+        if (!pacSound.isPlaying) pacSound.Play();
+        pacAnimator.SetFloat(MoveAbs, 1.0f);
+    }
+
+    void OnTweenComplete()
+    {
+        pacAnimator.SetFloat(MoveAbs, 0.0f);
+        pacSound.Stop();
+
+    }
+
+    void OnTweenStart()
+    {
+        pacAnimator.SetTrigger(_lastDirection.AnimTrigger());
+    }
+    
     IEnumerator PacMoveCycle()
     {
-        List<Direction> moveLoop = new List<Direction>();
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.South);
-        moveLoop.Add(Direction.South);
-        moveLoop.Add(Direction.South);
-        moveLoop.Add(Direction.South);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.North);
-        moveLoop.Add(Direction.North);
-        moveLoop.Add(Direction.North);
-        moveLoop.Add(Direction.North);
+        List<Direction> moveLoop = new List<Direction>
+        {
+            Direction.East,
+            Direction.East,
+            Direction.East,
+            Direction.East,
+            Direction.East,
+            Direction.South,
+            Direction.South,
+            Direction.South,
+            Direction.South,
+            Direction.West,
+            Direction.West,
+            Direction.West,
+            Direction.West,
+            Direction.West,
+            Direction.North,
+            Direction.North,
+            Direction.North,
+            Direction.North
+        };
 
         while (true)
         {
             foreach (var move in moveLoop)
             {
-                RequestMove(move);
-                yield return new WaitUntil(() => _activeTween == null);
+                _lastDirection = move;
+                moveTweener.RequestMove(move);
+                yield return new WaitUntil(moveTweener.TweenComplete);
             } 
         }
     }
     
     
-    void RequestMove(Direction direction)
-    {
-        // change to enqueue 
-        if (_activeTween != null) return;
-        
-        _activeTween = new TweenRequest(
-            moveTarget.position,
-            moveTarget.position + direction.ToVec(),
-            Time.time
-        );
-
-        pacAnimator.SetTrigger(direction.AnimTrigger());
-    }
+    
 }
