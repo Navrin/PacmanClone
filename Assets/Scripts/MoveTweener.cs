@@ -103,6 +103,11 @@ public class MoveTweener : MonoBehaviour
     {
         return _activeTween is not null;
     }
+
+    public bool TweenComplete()
+    {
+        return _activeTween is null;
+    }
     
     
 

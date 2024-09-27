@@ -58,25 +58,27 @@ public class PacMovementHandler : MonoBehaviour
     
     IEnumerator PacMoveCycle()
     {
-        List<Direction> moveLoop = new List<Direction>();
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.East);
-        moveLoop.Add(Direction.South);
-        moveLoop.Add(Direction.South);
-        moveLoop.Add(Direction.South);
-        moveLoop.Add(Direction.South);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.West);
-        moveLoop.Add(Direction.North);
-        moveLoop.Add(Direction.North);
-        moveLoop.Add(Direction.North);
-        moveLoop.Add(Direction.North);
+        List<Direction> moveLoop = new List<Direction>
+        {
+            Direction.East,
+            Direction.East,
+            Direction.East,
+            Direction.East,
+            Direction.East,
+            Direction.South,
+            Direction.South,
+            Direction.South,
+            Direction.South,
+            Direction.West,
+            Direction.West,
+            Direction.West,
+            Direction.West,
+            Direction.West,
+            Direction.North,
+            Direction.North,
+            Direction.North,
+            Direction.North
+        };
 
         while (true)
         {
@@ -84,7 +86,7 @@ public class PacMovementHandler : MonoBehaviour
             {
                 _lastDirection = move;
                 moveTweener.RequestMove(move);
-                yield return new WaitUntil(moveTweener.TweenActive);
+                yield return new WaitUntil(moveTweener.TweenComplete);
             } 
         }
     }

@@ -279,6 +279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6771938143438482274}
   - component: {fileID: 7138405436535735869}
+  - component: {fileID: 5335741245535644700}
   - component: {fileID: 29001119174335268}
   m_Layer: 0
   m_Name: Ghost
@@ -325,6 +326,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5335741245535644700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6486292007495597520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4eee6c08a684b0f88653417a03ded7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTarget: {fileID: 6771938143438482274}
+  moveTime: 0.3
 --- !u!114 &29001119174335268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,4 +357,5 @@ MonoBehaviour:
   anim: {fileID: 7138405436535735869}
   bodyRender: {fileID: 8768675063756367197}
   eyeRender: {fileID: 3834491137691624270}
+  moveTweener: {fileID: 5335741245535644700}
   animationType: 0
