@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5963997321646832805}
   - component: {fileID: 460356967564648009}
+  - component: {fileID: 2718249996597571635}
   - component: {fileID: 8401450015071304735}
   - component: {fileID: 6089311716188003603}
   m_Layer: 0
@@ -57,6 +58,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2718249996597571635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685442861037833336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4eee6c08a684b0f88653417a03ded7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTarget: {fileID: 5963997321646832805}
+  moveTime: 0.3
 --- !u!114 &8401450015071304735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,10 +84,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7ab87ef94ef40418a4125e82826460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveTarget: {fileID: 5963997321646832805}
+  moveTweener: {fileID: 2718249996597571635}
   pacAnimator: {fileID: 460356967564648009}
   pacSound: {fileID: 6089311716188003603}
-  moveTime: 0.25
+  shouldCycleAnimate: 0
+  shouldDie: 0
 --- !u!82 &6089311716188003603
 AudioSource:
   m_ObjectHideFlags: 0
@@ -82,7 +98,7 @@ AudioSource:
   m_GameObject: {fileID: 4685442861037833336}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 2432688029747303279, guid: 92f7495145c26412a92bc2f05f487642, type: 2}
+  OutputAudioMixerGroup: {fileID: 3085688310916564367, guid: 92f7495145c26412a92bc2f05f487642, type: 2}
   m_audioClip: {fileID: 8300000, guid: 061230d4fd73241339f7811679bbcbdd, type: 3}
   m_Resource: {fileID: 8300000, guid: 061230d4fd73241339f7811679bbcbdd, type: 3}
   m_PlayOnAwake: 0
