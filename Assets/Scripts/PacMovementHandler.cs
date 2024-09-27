@@ -77,8 +77,6 @@ public class PacMovementHandler : MonoBehaviour
     {
         if (_activeTween != null)
         {
-            if (!pacSound.isPlaying) pacSound.Play();
-            pacAnimator.SetFloat("MoveAbs", 1.0f);
             
             var nextPos = Vector3.Lerp(
                 _activeTween.StartPos, 
@@ -87,6 +85,8 @@ public class PacMovementHandler : MonoBehaviour
             );
             
             moveTarget.position = nextPos;
+            if (!pacSound.isPlaying) pacSound.Play();
+            pacAnimator.SetFloat("MoveAbs", 1.0f);
             if (Time.time - _activeTween.TimeStart > moveTime)
             {
                 _activeTween = null;

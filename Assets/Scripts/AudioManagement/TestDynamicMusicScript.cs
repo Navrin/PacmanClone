@@ -9,6 +9,7 @@ public class TestDynamicMusicScript : MonoBehaviour
     public AudioSource scaredTrack;
     public AudioSource ghostDownTrack;
     public AudioSource ghostDownScaredTrack;
+    public AudioSource introTrack;
     List<AudioSource> _tracks = new List<AudioSource>();
     
     // Start is called before the first frame update
@@ -18,6 +19,9 @@ public class TestDynamicMusicScript : MonoBehaviour
         _tracks.Add(scaredTrack);
         _tracks.Add(ghostDownTrack);
         _tracks.Add(ghostDownScaredTrack);
+
+        
+        StartCoroutine(nameof(WaitForIntro));
     }
 
     void MuteOthers(AudioSource keepTrack)
@@ -26,6 +30,20 @@ public class TestDynamicMusicScript : MonoBehaviour
         {
             if (track != keepTrack) track.volume = 0;
         }
+    }
+
+    IEnumerator WaitForIntro()
+    {
+        introTrack.Play();
+        yield return null;
+        yield return new WaitUntil(() => !introTrack.isPlaying);
+
+        foreach (var track in _tracks)
+        {
+            // ensure synced
+            track.PlayScheduled(Time.time + 3);
+        }
+        
     }
 
     void Update()
