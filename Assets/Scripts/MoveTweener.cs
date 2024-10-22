@@ -7,12 +7,14 @@ public class TweenRequest
     public Vector3 StartPos { get; private set; }
     public Vector3 EndPos {get; private set;}
     public float TimeStart { get; private set; }
+    public float MoveTime { get; private set; }
 
-    public TweenRequest(Vector2 startPos, Vector2 endPos, float timeStart)
+    public TweenRequest(Vector2 startPos, Vector2 endPos, float timeStart, float moveTime)
     {
         this.StartPos = startPos;
         this.EndPos = endPos;
         this.TimeStart = timeStart;
+        this.MoveTime = moveTime;
     }
 }
 
@@ -82,15 +84,31 @@ public class MoveTweener : MonoBehaviour
     
     public void RequestMove(Direction direction)
     {
-        // change to enqueue 
         if (_activeTween != null) return;
+
+        RequestMove(moveTarget.position + direction.ToVec(), moveTime);
+    }
+    
+    public void RequestMove(Vector2 position)
+    {
+        if (_activeTween != null) return;
+
+        RequestMove(position, moveTime);
+    }
+
+    public void RequestMove(Vector2 position, float time)
+    {
+        if (_activeTween != null) return;
+
+        // change to enqueue 
         
         _activeTween = new TweenRequest(
             moveTarget.position,
-            moveTarget.position + direction.ToVec(),
-            Time.time
+            position,
+            Time.time,
+            time
         );
-        OnTweenStart?.Invoke();
+        OnTweenStart?.Invoke();        
     }
 
     
@@ -108,7 +126,11 @@ public class MoveTweener : MonoBehaviour
     {
         return _activeTween is null;
     }
-    
+
+    public Vector3 GetTweenTarget()
+    {
+        return _activeTween.EndPos;
+    }
     
 
     // Update is called once per frame
@@ -121,13 +143,13 @@ public class MoveTweener : MonoBehaviour
             var nextPos = Vector3.Lerp(
                 _activeTween.StartPos, 
                 _activeTween.EndPos, 
-                (Time.time - _activeTween.TimeStart) / moveTime
+                (Time.time - _activeTween.TimeStart) / _activeTween.MoveTime
             );
             
             moveTarget.position = nextPos;
             OnTweenActive?.Invoke();
             
-            if (Time.time - _activeTween.TimeStart > moveTime)
+            if (Time.time - _activeTween.TimeStart > _activeTween.MoveTime)
             {
                 _activeTween = null;
                 OnTweenComplete?.Invoke();
