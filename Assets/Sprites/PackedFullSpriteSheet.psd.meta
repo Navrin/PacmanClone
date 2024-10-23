@@ -175,7 +175,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -213,7 +213,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -1234,9 +1234,56 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PackedFullSpriteSheet_0: -1008506782503217662
+      PackedFullSpriteSheet_1: -4827270005309590314
+      PackedFullSpriteSheet_10: 3766588772866238911
+      PackedFullSpriteSheet_11: -4682260483118117539
+      PackedFullSpriteSheet_12: -2768690830172977126
+      PackedFullSpriteSheet_13: 6613711709461159307
+      PackedFullSpriteSheet_14: 7485478043565608396
+      PackedFullSpriteSheet_15: -7913077189329478883
+      PackedFullSpriteSheet_16: 6609130004370371846
+      PackedFullSpriteSheet_17: -5914280355568140735
+      PackedFullSpriteSheet_18: -1759065738095185003
+      PackedFullSpriteSheet_19: 5089970523078335053
+      PackedFullSpriteSheet_2: -6215341923787273698
+      PackedFullSpriteSheet_20: 2634533959603883541
+      PackedFullSpriteSheet_21: 184175657689533716
+      PackedFullSpriteSheet_22: 1355407779050279091
+      PackedFullSpriteSheet_23: 4210725254167728292
+      PackedFullSpriteSheet_24: -6006374555421479787
+      PackedFullSpriteSheet_25: 1157782998682153425
+      PackedFullSpriteSheet_26: -1528050097852017274
+      PackedFullSpriteSheet_27: -7032384119726902339
+      PackedFullSpriteSheet_28: 4665952435180684856
+      PackedFullSpriteSheet_29: 3741628135009236427
+      PackedFullSpriteSheet_3: 2944060305264159941
+      PackedFullSpriteSheet_30: 3545327259881787195
+      PackedFullSpriteSheet_31: 4887776006650627789
+      PackedFullSpriteSheet_32: 2896460654467089450
+      PackedFullSpriteSheet_33: 66080495724536110
+      PackedFullSpriteSheet_34: -3536868902501523764
+      PackedFullSpriteSheet_35: -1879341246724828249
+      PackedFullSpriteSheet_36: 991901460856423788
+      PackedFullSpriteSheet_37: 3395348603394527485
+      PackedFullSpriteSheet_38: -621204716390491585
+      PackedFullSpriteSheet_39: 3572559274730554750
+      PackedFullSpriteSheet_4: 671373400663292778
+      PackedFullSpriteSheet_40: 5119057566848198217
+      PackedFullSpriteSheet_41: 8640704952677906231
+      PackedFullSpriteSheet_42: 4324126407357075920
+      PackedFullSpriteSheet_43: -8773046220731767926
+      PackedFullSpriteSheet_44: 8151803043754567165
+      PackedFullSpriteSheet_45: -5729511478399389502
+      PackedFullSpriteSheet_46: -5827485824489474987
+      PackedFullSpriteSheet_5: 4887473037816452509
+      PackedFullSpriteSheet_6: -2732103471809350488
+      PackedFullSpriteSheet_7: 4994991596266363030
+      PackedFullSpriteSheet_8: 2466076624285848634
+      PackedFullSpriteSheet_9: -1839824526193547242
   mipmapLimitGroupName: 
-  pSDRemoveMatte: 0
+  pSDRemoveMatte: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

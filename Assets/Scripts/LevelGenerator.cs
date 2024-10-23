@@ -69,6 +69,14 @@ public class LevelGenerator : MonoBehaviour
         {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
     };
 
+    internal int[,] FullLevelMap { get; private set; }
+
+    void Start()
+    {
+        FullLevelMap = new int[_levelMap.GetLength(1)*2, _levelMap.GetLength(0)*2];
+        FixAllTileRotations();
+    }
+
     private int[,] _transLevelMap;
 
     int[,] levelMap
@@ -148,13 +156,24 @@ public class LevelGenerator : MonoBehaviour
     void FixAllTileRotations()
     {
         var bounds = (tilemap.cellBounds);
+        // FullLevelMap = new int[bounds.size.x, bounds.size.y];
+
        
         for (var x = bounds.position.x; x < bounds.size.x; x++)
         for (var y=bounds.position.y; y < bounds.size.y; y++)
         {
             var pos = new Vector3Int(x,y,0);
             var rotation =     CalculateRotationForTile(x, y);
-            var origTrans = tilemap.GetTransformMatrix(pos);
+            // var tile = tilemap.GetTile(pos);
+            // try
+            // {
+            //     FullLevelMap[x, y] = tileset.TileToMap(tile);
+            // }
+            // catch (System.IndexOutOfRangeException e)
+            // {
+            //     Debug.Log($"OOB: {x}, {y}");
+            // }
+            // var origTrans = tilemap.GetTransformMatrix(pos);
             tilemap.SetTransformMatrix(pos, 
                 Matrix4x4.TRS(
                     // origTrans.GetPosition(), 

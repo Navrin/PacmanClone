@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestDynamicMusicScript : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
     public AudioSource normalTrack;
     public AudioSource scaredTrack;
@@ -21,7 +21,7 @@ public class TestDynamicMusicScript : MonoBehaviour
         _tracks.Add(ghostDownScaredTrack);
 
         
-        StartCoroutine(nameof(WaitForIntro));
+        StartCoroutine(WaitForIntro());
     }
 
     void MuteOthers(AudioSource keepTrack)
@@ -35,42 +35,43 @@ public class TestDynamicMusicScript : MonoBehaviour
     IEnumerator WaitForIntro()
     {
         introTrack.Play();
-        yield return null;
-        yield return new WaitUntil(() => !introTrack.isPlaying);
+        yield return new WaitUntil(() => introTrack.isPlaying);
+        yield return new WaitWhile(() => introTrack.isPlaying);
 
         foreach (var track in _tracks)
         {
             // ensure synced
             track.PlayScheduled(Time.time + 3);
         }
-        
+       
+        StopCoroutine(nameof(WaitForIntro));
     }
 
     void Update()
     { 
         AudioSource track = null;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            track = normalTrack;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            track = scaredTrack;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            track = ghostDownTrack;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            track = ghostDownScaredTrack;
-        }
+        // if (Input.GetKeyDown(KeyCode.Alpha1))
+        // {
+        //     track = normalTrack;
+        // }
+        // if (Input.GetKeyDown(KeyCode.Alpha2))
+        // {
+        //     track = scaredTrack;
+        // }
+        // if (Input.GetKeyDown(KeyCode.Alpha3))
+        // {
+        //     track = ghostDownTrack;
+        // }
+        // if (Input.GetKeyDown(KeyCode.Alpha4))
+        // {
+        //     track = ghostDownScaredTrack;
+        // }
 
-        if (track is not null)
-        {
-            MuteOthers(track);
-            track.volume = 1;
-        }
+        // if (track is not null)
+        // {
+        //     MuteOthers(track);
+        //     track.volume = 1;
+        // }
         
     }
 }

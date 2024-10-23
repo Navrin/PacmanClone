@@ -9,6 +9,8 @@ public class TweenRequest
     public float TimeStart { get; private set; }
     public float MoveTime { get; private set; }
 
+    internal bool halfCompleteInvoked = false;
+
     public TweenRequest(Vector2 startPos, Vector2 endPos, float timeStart, float moveTime)
     {
         this.StartPos = startPos;
@@ -37,6 +39,17 @@ public static class DirectionMethods
             Direction.South => new Vector3(0, -1, 0),
             Direction.West => new Vector3(-1, 0, 0),
             _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+        };
+    }
+
+    public static float ToPSAngle(this Direction direction)
+    {
+        return direction switch
+        {
+            Direction.East => 0f,
+            Direction.North => 90f,
+            Direction.West => 180f,
+            Direction.South => 270f,
         };
     }
 
@@ -80,6 +93,8 @@ public class MoveTweener : MonoBehaviour
     public OnTweenCompleteDelegate OnTweenComplete;
     
     // Start is called before the first frame update
+    public delegate void OnTweenHalfCompleteDelegate();
+    public event OnTweenHalfCompleteDelegate OnTweenHalfComplete;
  
     
     public void RequestMove(Direction direction)
@@ -139,20 +154,28 @@ public class MoveTweener : MonoBehaviour
         
         if (_activeTween != null)
         {
-            
+            var timeNorm = (Time.time - _activeTween.TimeStart) / _activeTween.MoveTime;
             var nextPos = Vector3.Lerp(
                 _activeTween.StartPos, 
                 _activeTween.EndPos, 
-                (Time.time - _activeTween.TimeStart) / _activeTween.MoveTime
+                timeNorm
             );
             
             moveTarget.position = nextPos;
             OnTweenActive?.Invoke();
+
+            if (!_activeTween.halfCompleteInvoked && timeNorm > 0.5f)
+            {
+                OnTweenHalfComplete?.Invoke();
+                _activeTween.halfCompleteInvoked = true;
+            }
+            
             
             if (Time.time - _activeTween.TimeStart > _activeTween.MoveTime)
             {
                 _activeTween = null;
                 OnTweenComplete?.Invoke();
+                return;
             }
         }
     }

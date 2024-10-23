@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 30d42f4139fbf47b697ad38ee6fd8a73
+guid: e933f5dfbd76745c2b443592a9d97b5e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4280754639841998742
-    second: WallLimit_0
-  - first:
-      213: 1329714087274944336
-    second: WallLimit_1
-  - first:
-      213: -7718529216863013823
-    second: WallLimit_2
+      213: 4603404783121029353
+    second: particleSmoke_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 0
   spriteMeshType: 0
   alignment: 0
@@ -80,8 +74,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -106,91 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WallLimit_OuterCorner
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 51
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a68cc91e554b794c0800000000000000
-      internalID: -4280754639841998742
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallLimit_Junction
-      rect:
-        serializedVersion: 2
-        x: 17
-        y: 51
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0571bd0dae7147210800000000000000
-      internalID: 1329714087274944336
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallLimit_OuterWall
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 34
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 144f760629642e490800000000000000
-      internalID: -7718529216863013823
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallLimit_InnerCorner
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 17
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b701c116b78ba4f89bc29a78b4303398
-      internalID: -215824606
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallLimit_InnerWall
+      name: particleSmoke_0
       rect:
         serializedVersion: 2
         x: 0
@@ -202,10 +112,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 98326759c734144c7b821768f1676c75
-      internalID: 1539561797
+      spriteID: 9e85347a24492ef30800000000000000
+      internalID: 4603404783121029353
       vertices: []
       indices: 
       edges: []
@@ -213,7 +123,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a870ab01f357241a19a966befc33cf61
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -221,11 +131,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      WallLimit_InnerCorner: -215824606
-      WallLimit_InnerWall: 1539561797
-      WallLimit_Junction: 1329714087274944336
-      WallLimit_OuterCorner: -4280754639841998742
-      WallLimit_OuterWall: -7718529216863013823
+      particleSmoke_0: 4603404783121029353
   mipmapLimitGroupName: 
   pSDRemoveMatte: 1
   userData: 
