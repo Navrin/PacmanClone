@@ -98,15 +98,26 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
         
         SnapToGrid(gameObject.transform);
 
-        levelState.OnGameActive += () =>
-        {
-            _controls?.Game.Enable();
-            LastInput = KeyCode.D;
-            GameReady = true;
-        };
+        levelState.OnGameActive += OnGameStart;
         
         moveTweener.OnTweenComplete += OnPacMoveComplete;
         moveTweener.OnTweenHalfComplete += OnTweenMidpoint;
+        
+        levelState.OnGameExit += OnGameExit;
+    }
+
+    private void OnGameStart()
+    {
+        _controls?.Game.Enable();
+        LastInput = KeyCode.D;
+        GameReady = true;
+    }
+
+    private void OnGameExit()
+    {
+        _controls?.Game.Disable();
+        GameReady = false;
+        
     }
 
 

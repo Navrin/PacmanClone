@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
     List<AudioSource> _tracks = new List<AudioSource>();
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _tracks.Add(normalTrack);
         _tracks.Add(scaredTrack);
@@ -22,6 +22,11 @@ public class AudioManager : MonoBehaviour
 
         
         StartCoroutine(WaitForIntro());
+    }
+
+    private void OnDestroy()
+    {
+       StopAllCoroutines(); 
     }
 
     void MuteOthers(AudioSource keepTrack)
@@ -46,6 +51,9 @@ public class AudioManager : MonoBehaviour
        
         StopCoroutine(nameof(WaitForIntro));
     }
+
+    public bool IntroPlaying =>
+        introTrack && introTrack.isPlaying;
 
     void Update()
     { 

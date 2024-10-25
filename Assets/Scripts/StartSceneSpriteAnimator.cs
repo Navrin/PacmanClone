@@ -24,7 +24,7 @@ public class StartSceneSpriteAnimator : MonoBehaviour
         _pacAnimator = pacStudent.GetComponent<Animator>();
         _pacSprite = pacStudent.transform.GetChild(0).gameObject;
         _rotate = new Quaternion();
-        _pacAnimator.SetFloat("MoveAbs", 1f);
+        _pacAnimator.SetTrigger("Moving");
         _pacAnimator.SetBool("DirectionManaged", true);
         
         _cam = Camera.main!;
@@ -85,6 +85,7 @@ public class StartSceneSpriteAnimator : MonoBehaviour
             }
             
             pacStudent.transform.rotation = Quaternion.Euler(0, 0, rot);
+            
             
             _pacTweener.RequestMove(endPos, time);
             // _rotate.SetFromToRotation(pacStudent.transform.position, endPos);

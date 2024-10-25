@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class CherryController : MonoBehaviour
 {
@@ -18,9 +20,9 @@ public class CherryController : MonoBehaviour
     private Bounds _camBounds;
 
     // Start is called before the first frame update
-    void Start()
+    public void Ready()
     {
-        manager ??= GetComponent<LevelStateManager>();
+        manager = GetComponent<LevelStateManager>();
         tilemap = manager.tilemap;
         
         bounds = tilemap.cellBounds;
@@ -35,7 +37,11 @@ public class CherryController : MonoBehaviour
         _camBounds.Expand(3);
 
         StartCoroutine(nameof(SpawnCherry));
+    }
 
+    public void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     Vector2 RandomBoundedPoint()
