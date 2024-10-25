@@ -9,6 +9,7 @@ TagManager:
   - Managers
   - Tilemap
   - Cherry
+  - Ghost
   layers:
   - Default
   - TransparentFX
