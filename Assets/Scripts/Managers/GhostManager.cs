@@ -17,6 +17,45 @@ public class GhostManager : MonoBehaviour
 
 
         levelState.OnGameLoaded += OnGameLoaded;
+        levelState.OnLifeChange += HaltGhosts;
+        levelState.OnGhostEliminated += GhostElim;
+        levelState.OnGhostRevived += GhostRevive;
+        levelState.OnGameRestart += OnRestart;
+    }
+
+    private void OnRestart()
+    {
+        foreach (var g in activeGhosts)
+        {
+            Destroy(g.gameObject);
+        }
+    }
+
+    private void HaltGhosts(int lives)
+    {
+        // TODO: stop ai behaviour
+    }
+
+    private void GhostRevive(GameObject ghost)
+    {
+        foreach (var g in activeGhosts)
+        {
+            if (g.gameObject == ghost)
+            {
+                g.GhostRevive();
+            }
+        }
+    }
+
+    private void GhostElim(GameObject ghost)
+    {
+        foreach (var g in activeGhosts)
+        {
+            if (g.gameObject == ghost)
+            {
+                g.GhostDead();
+            }
+        }
     }
 
     private void OnGameLoaded()

@@ -32,6 +32,7 @@ public class StartSceneSpriteAnimator : MonoBehaviour
         foreach (var ghost in ghosts)
         {
             var controller = ghost.GetComponent<GhostAnimationController>();
+            controller.GetComponent<GhostController>().SyncProps();
             controller.moveTweener.OnTweenStart = null;
             controller.anim.SetTrigger("MoveEast");
             _ghostControllers.Add(controller);

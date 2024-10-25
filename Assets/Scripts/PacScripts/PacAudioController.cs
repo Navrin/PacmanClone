@@ -24,6 +24,13 @@ public class PacAudioController : MonoBehaviour
         controller.OnPacCollision += OnCollide;
         // controller.OnPacMoveStart += OnMoveStart;
         controller.OnPacMoveEmpty += OnMoveEmpty;
+        controller.OnPacDeath += OnDeath;
+    }
+
+    private void OnDeath()
+    {
+        moveSource.Stop();
+        audioOneShot.PlayOneShot(sfx.death);
     }
 
     private void OnMoveEmpty(Vector3Int pos)
@@ -44,6 +51,8 @@ public class PacAudioController : MonoBehaviour
         audioOneShot.PlayOneShot(sfx.collide);
 
     }
+    
+    
 
     private void OnPickup(Vector3Int pos, int kind)
     {

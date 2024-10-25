@@ -55,6 +55,15 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
 
     public delegate void OnPacCherryCollideEvent();
     public event OnPacCherryCollideEvent OnPacCherryCollide;
+
+    public delegate void OnGhostCollideEvent(GameObject ghost);
+    public event OnGhostCollideEvent OnGhostCollide;
+
+    public delegate void OnPacDeathEvent();
+    public event OnPacDeathEvent OnPacDeath;
+
+    public delegate void OnPacResetEvent();
+    public event OnPacResetEvent OnPacReset;
     
     public KeyCode LastInput
     {
@@ -95,15 +104,41 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
         moveTweener ??= GetComponent<MoveTweener>();
         
         _tilemap = levelGenerator.tilemap;
-        
-        SnapToGrid(gameObject.transform);
 
+        OnRespawn();
         levelState.OnGameActive += OnGameStart;
         
         moveTweener.OnTweenComplete += OnPacMoveComplete;
         moveTweener.OnTweenHalfComplete += OnTweenMidpoint;
-        
+        levelState.OnLifeChange += PacDeathEvent;
         levelState.OnGameExit += OnGameExit;
+        levelState.OnGameRestart += GameRestart;
+    }
+
+    private void GameRestart()
+    {
+        OnRespawn();
+    }
+
+    private void PacDeathEvent(int lives)
+    {
+        OnPacDeath?.Invoke();
+        moveTweener.ForceStop();
+        GameReady = false;
+        
+    }
+
+    public void OnRespawn()
+    {
+        _lastValidDirection = null;
+        OnPacAnyMove?.Invoke(PacPosition);
+
+        _controls?.Game.Disable();
+        LastInput = KeyCode.D;
+        _isMoving = false;
+        SnapToGrid(gameObject.transform);
+        OnPacReset?.Invoke();
+        
     }
 
     private void OnGameStart()
@@ -127,7 +162,7 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
         var snapped = _tilemap.GetCellCenterWorld(pos);
         transform.position = snapped;
         // PacPosition = _tilemap.WorldToCell(transform.position);
-        
+
     }
     public void OnEnable()
     {
@@ -201,6 +236,19 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
     {
         var dirVec = direction.ToVec();
         var intPos = PacPosition + new Vector3Int((int)dirVec.x, (int)dirVec.y, 0);
+        var outsideLeftBounds = intPos.x < _tilemap.cellBounds.xMin;
+        if (outsideLeftBounds || intPos.x >= _tilemap.cellBounds.xMax)
+        {
+            PacPosition = new Vector3Int(
+                outsideLeftBounds ? _tilemap.cellBounds.xMax - 1 : _tilemap.cellBounds.xMin + 1, 
+                intPos.y,
+                0
+            );
+            transform.position = _tilemap.GetCellCenterWorld(PacPosition);
+            
+            intPos = PacPosition + new Vector3Int((int)dirVec.x, (int)dirVec.y, 0); 
+        }
+        
         var worldPos = _tilemap.GetCellCenterWorld(intPos);
         moveTweener.RequestMove(worldPos);
     }
@@ -301,10 +349,15 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!GameReady) return;
+        
         Debug.Log($"Collision event: {other.name}");
         if (other.CompareTag("Cherry"))
         {
             OnPacCherryCollide?.Invoke();
+        } else if (other.CompareTag("Ghost"))
+        {
+            OnGhostCollide?.Invoke(other.gameObject);
         }
     }
 }

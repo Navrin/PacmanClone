@@ -93,7 +93,9 @@ public class LevelGenerator : MonoBehaviour
     
     public bool generateMap = true;
 
-
+    public int pelletCount = -1;
+    public int powerupCount = -1;
+    
     protected TileBase getTileMapping(int kind)
     {
         return kind switch
@@ -157,14 +159,17 @@ public class LevelGenerator : MonoBehaviour
     {
         var bounds = (tilemap.cellBounds);
         // FullLevelMap = new int[bounds.size.x, bounds.size.y];
-
+        pelletCount = 0;
+        powerupCount = 0;
        
         for (var x = bounds.position.x; x < bounds.size.x; x++)
         for (var y=bounds.position.y; y < bounds.size.y; y++)
         {
             var pos = new Vector3Int(x,y,0);
             var rotation =     CalculateRotationForTile(x, y);
-            // var tile = tilemap.GetTile(pos);
+            var tile = tilemap.GetTile(pos);
+            if (tile == tileset.pellet) pelletCount++;
+            if (tile == tileset.powerUp) powerupCount++;
             // try
             // {
             //     FullLevelMap[x, y] = tileset.TileToMap(tile);

@@ -10,31 +10,96 @@ public enum ScoringEvent
 {
     Pellet = 10,
     Cherry = 100,
-    GhostElim = 50,
+    GhostElim = 300,
 }
 
 [Serializable]
+public class HighScore
+{
+    [SerializeField] public int Score = 0;
+    [SerializeField] public float Time = 0;
+
+    public HighScore(int score, float time)
+    {
+        this.Score = score;
+        this.Time = time;
+    }
+}
+// [Serializable]
 public class GameScoreState
 {
     public int Score { get; set; }
-    public int Lives { get; set; }
+    public int Lives { get; private set; }
     
     // TODO: change this to allow for 
     // pausing, i.e in-between lives
     // maybe use a timespan and "last active time" 
-    public float StartTime { get; set; }
-    public float EndTime { get; set; }
+    private float _accumulatedTime = 0.0f;
+        
+    // public float StartTime { get; set; }
+    private float _lastTimeStamp = -1;
+    private bool _timerPaused = false;
+    
+    public TimeSpan GameTime(float current)
+    {
+        if (_timerPaused) return TimeSpan.FromSeconds(_accumulatedTime);
+        var span = TimeSpan.FromSeconds((current-_lastTimeStamp) + _accumulatedTime);
+        return span;
+    }
+
+    public void PauseTimer(float time)
+    {
+        
+        var span = GameTime(time);
+        Debug.Log($"AccTime {_accumulatedTime} ");
+        Debug.Log($"{span}");
+
+        _timerPaused = true;
+        _accumulatedTime += (float) span.TotalSeconds;
+        _lastTimeStamp = time;
+    }
+
+    public void ResumeTimer(float time)
+    {
+        Debug.Log($"AccTime {_accumulatedTime} ");
+        _timerPaused = false; 
+        _lastTimeStamp = time;
+    }
     
     public GameScoreState(float time)
     {
-        Score = 0;
-        Lives = 3;
-        StartTime = time;
+        this.Score = 0;
+        this.Lives = 3;
+        _lastTimeStamp = time;
     }
 
+    public void ChangeLives(bool death)
+    {
+        Debug.Log($"CHANGING LIFE AMOUNT PRIOR {Lives}");
+        Lives += death ? -1 : 1;
+    }
     public void AddScore(ScoringEvent scoreEvent)
     {
         Score += (int)scoreEvent;
+    }
+
+    public void Save(float time)
+    {
+        var best = LoadHighScore();
+        if (best.Score <= Score && best.Time < GameTime(time).TotalSeconds)
+        {
+            var newScore = new HighScore(Score, (float)GameTime(time).TotalSeconds);
+            var bestScore = JsonUtility.ToJson(newScore);
+            PlayerPrefs.SetString("HighScore", bestScore);
+        }
+    }
+
+    static public HighScore LoadHighScore()
+    {
+        var highscore = PlayerPrefs.GetString("HighScore", "");
+        if (highscore == "") return new HighScore(0, 0);
+        
+        return JsonUtility.FromJson<HighScore>(highscore);
     }
 }
 
@@ -50,7 +115,7 @@ public class LevelStateManager : MonoBehaviour
     private CherryController cherryController;
     internal Tilemap tilemap;
 
-    public GameScoreState scoreState;
+    public GameScoreState scoreState = null;
 
     private bool _active = false;
     public float StartTime { get; private set; }
@@ -59,7 +124,7 @@ public class LevelStateManager : MonoBehaviour
 
     public int GhostScaredRemainingTime => GhostScaredTotalTime - Mathf.FloorToInt(Time.time - GhostScaredStart);
         
-    public static readonly int GhostScaredTotalTime = 15;
+    public static readonly int GhostScaredTotalTime = 10;
     public delegate void OnGameActiveEvent();
     public event OnGameActiveEvent OnGameActive;
     
@@ -78,6 +143,14 @@ public class LevelStateManager : MonoBehaviour
     public delegate void OnGhostScaredEvent();
     public event OnGhostScaredEvent OnGhostScared;
 
+    public delegate void OnGhostEliminatedEvent(GameObject ghost);
+    public event OnGhostEliminatedEvent OnGhostEliminated;
+    public delegate void OnGhostRecoveredEvent();
+    public event OnGhostRecoveredEvent OnGhostRecovered;
+    public delegate void OnGhostRevivedEvent(GameObject ghost);
+    public event OnGhostRevivedEvent OnGhostRevived;
+    
+
     public delegate void OnGameExitEvent();
     public event OnGameExitEvent OnGameExit;
     
@@ -86,7 +159,16 @@ public class LevelStateManager : MonoBehaviour
      */
     public delegate void OnGameLoadedEvent();
     public event OnGameLoadedEvent OnGameLoaded;
-    
+
+    public delegate void OnGameRestartEvent();
+    public event OnGameRestartEvent OnGameRestart;
+
+
+    public List<GameObject> deadGhosts = new List<GameObject>();
+    public bool AnyGhostsDead => deadGhosts.Count > 0;
+
+    private int _pelletsLeft = 0;
+    private int _powerupsLeft = 0;
     
     IEnumerator SyncLevelState()
     {
@@ -103,25 +185,78 @@ public class LevelStateManager : MonoBehaviour
         pacController = pac.GetComponent<PacStudentController>();
         pacController.levelState = this;
         pacController.OnSpawn();
-        
-        // pacController ??= GameObject.FindWithTag("Player").GetComponent<PacStudentController>();
-        // yield return new WaitUntil(() => pacController.levelGenerator is not null);
-        // if (pacController is null)
-        // {
-            // Debug.Log($"[ERROR] GameObject for PacStudent was not found!");
-            // yield return null;
-        // }
-        
-
-        _active = true;
-        
         pacController.OnPacPickup += OnPacCollectItem;
         pacController.OnPacCherryCollide += OnCherryCollide;
+        pacController.OnGhostCollide += OnGhostCollide;
+        _powerupsLeft = pacController.levelGenerator.powerupCount;
+        _pelletsLeft = pacController.levelGenerator.pelletCount;
+        
+        _active = true;
         cherryController.Ready();
 
         // StopCoroutine(nameof(SyncLevelState));
     }
 
+
+    private bool handlingDeath = false;
+    private void OnGhostCollide(GameObject ghost)
+    {
+        if (handlingDeath) return;
+        
+        if (GhostScaredRemainingTime > 0)
+        {
+            // TODO: inform ghost controller of ghost death
+            AddScore(ScoringEvent.GhostElim);
+            OnGhostEliminated?.Invoke(ghost);
+            deadGhosts.Add(ghost);
+            StartCoroutine(GhostReviveTimer(ghost));
+        }
+        else if (!deadGhosts.Contains(ghost))
+        {
+            // TODO: death event
+            handlingDeath = true;
+            StartCoroutine(PacDeath());
+        }
+    }
+
+    IEnumerator PacDeath()
+    {
+        scoreState.ChangeLives(true);
+        OnLifeChange?.Invoke(scoreState.Lives);
+        
+
+        // TODO: PAUSE TIMER
+        scoreState.PauseTimer(Time.time);
+
+        if (scoreState.Lives == 0)
+        {
+            yield return GameOver();
+        }
+        
+        yield return new WaitForSeconds(3);
+        // RespawnPac();
+        pacController.transform.position = spawnPos;
+        OnGameRestart?.Invoke();
+        StartCoroutine(IntroStateWatcher());
+
+    }
+
+    IEnumerator  GameOver()
+    {
+        OnGameOver?.Invoke();
+        scoreState.Save(Time.time);
+            
+        yield return new WaitForSeconds(3);
+        RequestExitGame();
+    }
+
+    IEnumerator GhostReviveTimer(GameObject ghost)
+    {
+        yield return new WaitForSeconds(5);
+        deadGhosts.Remove(ghost);
+        OnGhostRevived?.Invoke(ghost);
+    }
+    
     private void OnCherryCollide()
     {
         cherryController.DestroyCherry();
@@ -145,8 +280,37 @@ public class LevelStateManager : MonoBehaviour
         {
             // todo add score 
             tilemap.SetTile(pos, null);
+            
             AddScore(ScoringEvent.Pellet);
+            _pelletsLeft--;
         }
+
+        if (kind == TileType.PowerUp)
+        {
+            tilemap.SetTile(pos, null);
+            PowerUpCollected();
+            _powerupsLeft--;
+        }
+
+        if (_pelletsLeft == 0 && _powerupsLeft == 0)
+        {
+            StartCoroutine(GameOver());
+        }
+    }
+
+    private void PowerUpCollected()
+    {
+        OnGhostScared?.Invoke();
+        GhostScaredStart = Time.time;
+
+        StartCoroutine(nameof(PowerupTimer));
+    }
+
+    IEnumerator PowerupTimer()
+    {
+        yield return new WaitForSeconds(GhostScaredTotalTime);
+        OnGhostRecovered?.Invoke();
+        StopCoroutine(nameof(PowerupTimer));
     }
 
     private void Start()
@@ -175,19 +339,23 @@ public class LevelStateManager : MonoBehaviour
         yield return new WaitUntil(() => musicController is not null && musicController.introTrack);
         yield return new WaitUntil(() => musicController is not null && musicController.IntroPlaying);
         yield return new WaitWhile(() => musicController is not null && musicController.IntroPlaying);
+
+        yield return new WaitForSeconds(3 - musicController.introTrack.clip.length);
          
         StartGameActive();
-        StopCoroutine(nameof(IntroStateWatcher));
     }
 
     private void StartGameActive()
     {
+        handlingDeath = false;
         OnGameActive?.Invoke();
         cherryController.enabled=true;
-        StartTime = Time.time;
+        // StartTime = Time.time;
+        
         GameActive = true;
 
-        scoreState = new GameScoreState(Time.time);
+        scoreState ??= new GameScoreState(Time.time);
+        scoreState.ResumeTimer(Time.time);
     }
 
     private void EndGameInactive()
@@ -195,7 +363,7 @@ public class LevelStateManager : MonoBehaviour
         StartTime = -1;
         OnGameExit?.Invoke();
         cherryController.enabled=false;
-        scoreState.EndTime = Time.time;
+        // scoreState.EndTime = Time.time;
         StopAllCoroutines();
         // todo : add saving 
         

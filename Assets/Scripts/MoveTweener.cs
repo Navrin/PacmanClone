@@ -179,4 +179,10 @@ public class MoveTweener : MonoBehaviour
             }
         }
     }
+
+    public void ForceStop()
+    {
+        _activeTween = null;
+        
+    }
 }

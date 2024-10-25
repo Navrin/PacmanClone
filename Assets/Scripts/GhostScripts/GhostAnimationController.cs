@@ -47,8 +47,8 @@ public class GhostAnimationController : MonoBehaviour
     private void OnGhostRevive()
     {
         // anim.SetTrigger(ReviveTrigger);
-        anim.SetLayerWeight(0, 0.0f);
-        anim.SetLayerWeight(2, 1.0f);
+        anim.SetLayerWeight(2, 0.0f);
+        anim.SetLayerWeight(1, 1.0f);
     }
 
     private void OnGhostRecovered()
@@ -64,8 +64,8 @@ public class GhostAnimationController : MonoBehaviour
     private void OnDeathEvent()
     {
         // anim.SetTrigger(DeadTrigger);
-        anim.SetLayerWeight(1, 1.0f);
-        anim.SetLayerWeight(2, 0.0f);
+        anim.SetLayerWeight(2, 1.0f);
+        anim.SetLayerWeight(1, 0.0f);
     }
     
     

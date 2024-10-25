@@ -70,7 +70,7 @@ public class CherryController : MonoBehaviour
             tweener.RequestMove(antiSpawn, 15f);
             
             
-            yield return new WaitUntil(() => currentCherry is null || tweener.TweenComplete());
+            yield return new WaitUntil(() => currentCherry == null || tweener.TweenComplete());
 
             if (currentCherry is not null)
             {

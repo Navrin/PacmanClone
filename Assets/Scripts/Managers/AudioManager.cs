@@ -11,10 +11,17 @@ public class AudioManager : MonoBehaviour
     public AudioSource ghostDownScaredTrack;
     public AudioSource introTrack;
     List<AudioSource> _tracks = new List<AudioSource>();
+
+    public GameObject managers;
+
+    public LevelStateManager levelState;
+    
     
     // Start is called before the first frame update
     void Awake()
     {
+        managers = GameObject.FindWithTag("Managers");
+        levelState ??= managers.GetComponent<LevelStateManager>(); 
         _tracks.Add(normalTrack);
         _tracks.Add(scaredTrack);
         _tracks.Add(ghostDownTrack);
@@ -22,11 +29,68 @@ public class AudioManager : MonoBehaviour
 
         
         StartCoroutine(WaitForIntro());
+        
+        levelState.OnGhostScared += GhostScared;
+        levelState.OnGhostEliminated += GhostElim;
+        levelState.OnGhostRecovered += GhostRecovered;
+        levelState.OnGhostRevived += GhostRevived;
+        levelState.OnLifeChange += PacDeath;
+        levelState.OnGameRestart += OnRound;
     }
+
+    private void OnRound()
+    {
+        StartCoroutine(WaitForIntro());
+    }
+
+    private void PacDeath(int lives)
+    {
+        MuteOthers(normalTrack);
+        foreach (var track in _tracks)
+            track.Stop();
+    }
+
+    private void GhostRevived(GameObject ghost)
+    {
+        if (levelState.AnyGhostsDead && levelState.GhostScaredRemainingTime > 0) MuteOthers(ghostDownScaredTrack);
+        else if (!levelState.AnyGhostsDead && levelState.GhostScaredRemainingTime > 0) MuteOthers(scaredTrack);
+        else if (levelState.AnyGhostsDead) MuteOthers(ghostDownTrack);
+        else MuteOthers(normalTrack);
+    }
+
+    private void GhostRecovered()
+    {
+        if (levelState.AnyGhostsDead) MuteOthers(ghostDownTrack);
+        else MuteOthers(normalTrack);
+    }
+
+    private void GhostElim(GameObject ghost)
+    {
+        if (levelState.GhostScaredRemainingTime > 0)
+        {
+            MuteOthers(ghostDownScaredTrack);
+        }
+        else
+        {
+            MuteOthers(ghostDownTrack);
+        }
+    }
+
+    private void GhostScared()
+    {
+        if (levelState.AnyGhostsDead) MuteOthers(ghostDownScaredTrack);
+        else MuteOthers(scaredTrack);
+    }
+    
+    
 
     private void OnDestroy()
     {
        StopAllCoroutines(); 
+       levelState.OnGhostScared -= GhostScared;
+       levelState.OnGhostEliminated -= GhostElim;
+       levelState.OnGhostRecovered -= GhostRecovered;
+       levelState.OnGhostRevived -= GhostRevived;
     }
 
     void MuteOthers(AudioSource keepTrack)
@@ -35,6 +99,8 @@ public class AudioManager : MonoBehaviour
         {
             if (track != keepTrack) track.volume = 0;
         }
+        
+        keepTrack.volume = 1;
     }
 
     IEnumerator WaitForIntro()
@@ -54,32 +120,4 @@ public class AudioManager : MonoBehaviour
 
     public bool IntroPlaying =>
         introTrack && introTrack.isPlaying;
-
-    void Update()
-    { 
-        AudioSource track = null;
-        // if (Input.GetKeyDown(KeyCode.Alpha1))
-        // {
-        //     track = normalTrack;
-        // }
-        // if (Input.GetKeyDown(KeyCode.Alpha2))
-        // {
-        //     track = scaredTrack;
-        // }
-        // if (Input.GetKeyDown(KeyCode.Alpha3))
-        // {
-        //     track = ghostDownTrack;
-        // }
-        // if (Input.GetKeyDown(KeyCode.Alpha4))
-        // {
-        //     track = ghostDownScaredTrack;
-        // }
-
-        // if (track is not null)
-        // {
-        //     MuteOthers(track);
-        //     track.volume = 1;
-        // }
-        
-    }
 }

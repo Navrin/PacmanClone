@@ -14,6 +14,7 @@ public class PacAnimController : MonoBehaviour
     private static readonly int MoveAbs = Animator.StringToHash("MoveAbs");
     private static readonly int Collision1 = Animator.StringToHash("Collision");
     private static readonly int Moving = Animator.StringToHash("Moving");
+    private static readonly int ResetTrigger = Animator.StringToHash("Reset");
 
 
     public PacStudentController controller;
@@ -52,7 +53,18 @@ public class PacAnimController : MonoBehaviour
         controller.OnPacMoveStart += OnMoveStart;
         controller.OnPacCollision += OnMoveEnd;
         controller.OnPacAnyMove += OnAnyMovement;
-        
+        controller.OnPacDeath += OnPacDeath; 
+        controller.OnPacReset += OnPacReset; 
+    }
+
+    private void OnPacReset()
+    {
+        pacAnimator.SetTrigger(ResetTrigger);
+    }
+
+    private void OnPacDeath()
+    {
+        pacAnimator.SetTrigger(Death);
     }
 
     private void OnAnyMovement(Vector3Int pos)

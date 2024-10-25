@@ -10,7 +10,7 @@ public class HUDStateController : MonoBehaviour
 {
     private static readonly string GhostTimerTemplate = "{0} sec{1} <sprite anim=\"10,11,12\">";
     private static readonly string GameTimeMonoTemplate = "<mspace=25>{0}";
-    private static readonly string GameTimeFormat = "mm':'ss':'ff";
+    public static readonly string GameTimeFormat = "mm':'ss':'ff";
     private static readonly string GameTimeFormatBlink = "mm' 'ss' 'ff";
     
     public GameObject heartContainer;
@@ -28,6 +28,7 @@ public class HUDStateController : MonoBehaviour
     public Button exitGame;
 
     private LevelStateManager _stateManager;
+    public TMP_Text roundStartText;
 
     private bool _setupError = false;
 
@@ -72,7 +73,12 @@ public class HUDStateController : MonoBehaviour
 
         }
         
-        _hearts = heartContainer.GetComponentsInChildren<Transform>();
+        var heartCount = heartContainer.transform.childCount;
+        _hearts = new Transform[heartCount];
+        for (var i = 0; i < heartCount; i++)
+        {
+            _hearts[i]=heartContainer.transform.GetChild(i);
+        }
         if (_hearts is null)
         {
             Debug.LogError("Hearts not found");
@@ -89,13 +95,27 @@ public class HUDStateController : MonoBehaviour
             return; 
         }
         
+        _stateManager.OnGameLoaded += OnGameLoad;
         _stateManager.OnGhostScared += OnGhostScared;
         _stateManager.OnLifeChange += OnLifeChange;
         _stateManager.OnScoreChange += OnScoreChange;
+        _stateManager.OnGameOver += GameOverScreen;
         
         exitGame.onClick.AddListener(ExitGame);
 
     }
+
+    private void GameOverScreen()
+    {
+        roundStartText.gameObject.SetActive(true);
+        roundStartText.text = "GAME OVER.";
+    }
+
+    private void OnGameLoad()
+    {
+        StartCoroutine(RoundStartAnim());
+    }
+    
 
     private void ExitGame()
     {
@@ -114,10 +134,11 @@ public class HUDStateController : MonoBehaviour
     private void OnLifeChange(int livesLeft)
     {
         var livesHidden = _hearts.Length - livesLeft;
+        Debug.Log($"{livesHidden} {livesLeft}");
         
         for (var i = 0; i < livesHidden; i++)
         {
-            _hearts[i].gameObject.SetActive(false);
+            _hearts[_hearts.Length - 1 - i].gameObject.SetActive(false);
         }
     }
 
@@ -133,17 +154,16 @@ public class HUDStateController : MonoBehaviour
 
         if (_stateManager.GameActive)
         {
-            var now = Time.time;
-            var span = TimeSpan.FromSeconds(now - _stateManager.StartTime);
+            var span = _stateManager.scoreState.GameTime(Time.time);
             var fmt = span.Seconds % 2 == 0 ? GameTimeFormat : GameTimeFormatBlink;
             var timeFormatted = span.ToString(fmt);
 
             _gameTimeText.text = string.Format(GameTimeMonoTemplate, timeFormatted);
         }
-        else
-        {
-            _gameTimeText.text = "00:00:00";
-        }
+        // else
+        // {
+        //     _gameTimeText.text = "00:00:00";
+        // }
 
         if (_displayedScore != _targetScore && Time.frameCount % 15 == 0)
         {
@@ -168,5 +188,21 @@ public class HUDStateController : MonoBehaviour
         {
             ghostTimer.SetActive(false);
         }
+    }
+
+
+    IEnumerator RoundStartAnim()
+    {
+        roundStartText.gameObject.SetActive(true);
+        for (var i = 3; i > 0; i--)
+        {
+            roundStartText.text = i.ToString();
+            yield return new WaitForSeconds(1f);
+        }
+
+        roundStartText.text = "GO!!!";
+        yield return new WaitForSeconds(1f);
+        roundStartText.gameObject.SetActive(false);
+        roundStartText.text = "3";
     }
 }
