@@ -440,7 +440,7 @@ public class LevelGenerator : MonoBehaviour
 
         return target;
     }
-
+    
     void Update()
     {
         if (generateMap)

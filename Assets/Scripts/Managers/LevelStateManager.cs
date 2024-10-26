@@ -128,6 +128,8 @@ public class LevelStateManager : MonoBehaviour
     public delegate void OnGameActiveEvent();
     public event OnGameActiveEvent OnGameActive;
     
+    private bool handlingDeath = false;
+    private LevelGenerator levelGenerator;
     /**
      * TODO: Impl
      */
@@ -176,7 +178,12 @@ public class LevelStateManager : MonoBehaviour
         if (this.gameObject != StartManager.instance) yield return null;
         yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex == 1);
         
-        tilemap = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
+        levelGenerator = GameObject.FindWithTag("LevelGenerator").GetComponent<LevelGenerator>();
+        tilemap = levelGenerator.tilemap;
+        LevelMapUtil.GetInstance().ParseMap(tilemap, levelGenerator.tileset);
+            
+        // tilemap = GameObject.FindWithTag("Tilemap").GetComponent<Tilemap>();
+        
         musicController = GameObject.FindWithTag("DynamicMusic").GetComponent<AudioManager>();
         cherryController = GetComponent<CherryController>();
         StartCoroutine(nameof(IntroStateWatcher));
@@ -198,7 +205,7 @@ public class LevelStateManager : MonoBehaviour
     }
 
 
-    private bool handlingDeath = false;
+
     private void OnGhostCollide(GameObject ghost)
     {
         if (handlingDeath) return;
