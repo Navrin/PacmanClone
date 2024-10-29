@@ -42,7 +42,7 @@ public class StartSceneSpriteAnimator : MonoBehaviour
             _cam.ScreenToWorldPoint(Vector2.zero),
             _cam.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height))
         );
-        Debug.Log(_bounds);
+        // Debug.Log(_bounds);
         _bounds.Expand(20);
         StartCoroutine(PacAnimationCycle());
     }
@@ -90,8 +90,8 @@ public class StartSceneSpriteAnimator : MonoBehaviour
             
             _pacTweener.RequestMove(endPos, time);
             // _rotate.SetFromToRotation(pacStudent.transform.position, endPos);
-            Debug.Log(                Vector3.Angle(startPos, endPos));
-            Debug.Log($"{pacStudent.transform.position} -> {endPos} = {pacStudent.transform.rotation.eulerAngles}");
+            // Debug.Log(                Vector3.Angle(startPos, endPos));
+            // Debug.Log($"{pacStudent.transform.position} -> {endPos} = {pacStudent.transform.rotation.eulerAngles}");
             
             yield return new WaitUntil(_pacTweener.TweenComplete);
             if (ghostRandom > 0.5f)
@@ -106,7 +106,7 @@ public class StartSceneSpriteAnimator : MonoBehaviour
     {
         var randomAngle = Random.Range(0f, 2 * Mathf.PI);
         var point = new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle));
-        Debug.Log($"{point} {_bounds.extents.ToString()}");
+        // Debug.Log($"{point} {_bounds.extents.ToString()}");
         point *= _bounds.extents;
         var bounded = _bounds.ClosestPoint(point);
 

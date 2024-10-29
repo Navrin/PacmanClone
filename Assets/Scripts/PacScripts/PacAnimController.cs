@@ -57,6 +57,17 @@ public class PacAnimController : MonoBehaviour
         controller.OnPacReset += OnPacReset; 
     }
 
+    private void OnDestroy()
+    {
+        
+        controller.OnPacMoveStart -= OnMoveStart;
+        controller.OnPacCollision -= OnMoveEnd;
+        controller.OnPacAnyMove -= OnAnyMovement;
+        controller.OnPacDeath -= OnPacDeath; 
+        controller.OnPacReset -= OnPacReset; 
+
+    }
+
     private void OnPacReset()
     {
         pacAnimator.SetTrigger(ResetTrigger);

@@ -15873,6 +15873,8 @@ MonoBehaviour:
     pellet: {fileID: 11400000, guid: 6ea664b4691084d19b0ff0838c419fee, type: 2}
     powerUp: {fileID: 11400000, guid: 317f27d6e88d240baad939f66baf6e42, type: 2}
   generateMap: 0
+  pelletCount: 218
+  powerupCount: 4
 --- !u!4 &1904563893
 Transform:
   m_ObjectHideFlags: 0

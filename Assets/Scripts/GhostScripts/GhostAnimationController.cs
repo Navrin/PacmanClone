@@ -44,6 +44,16 @@ public class GhostAnimationController : MonoBehaviour
         controller.OnGhostRevive += OnGhostRevive;
     }
 
+    public void OnDestroy()
+    {
+        
+        controller.OnGhostDirectionChange -= DirectionChange;
+        controller.OnGhostDead -= OnDeathEvent;
+        controller.OnGhostScared -= OnGhostScared;
+        controller.OnGhostRecovered -= OnGhostRecovered;
+        controller.OnGhostRevive -= OnGhostRevive;
+    }
+
     private void OnGhostRevive()
     {
         // anim.SetTrigger(ReviveTrigger);
@@ -73,6 +83,5 @@ public class GhostAnimationController : MonoBehaviour
     private void DirectionChange(Direction dir)
     {
         anim.SetTrigger(dir.AnimTrigger());
-        moveTweener.RequestMove(dir);
     }
 }

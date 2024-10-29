@@ -284,10 +284,10 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
                 _targetTileType
             );
         }
-        Debug.Log(_targetTileType);
+        // Debug.Log(_targetTileType);
         if (_targetTileType == -1)
         {
-            Debug.Log($"Invoking empty move event");
+            // Debug.Log($"Invoking empty move event");
             OnPacMoveEmpty?.Invoke(AddTilemapPos(PacPosition, _lastValidDirection.GetValueOrDefault(Direction.East)));
         }
     }
@@ -351,7 +351,7 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
     {
         if (!GameReady) return;
         
-        Debug.Log($"Collision event: {other.name}");
+        // Debug.Log($"Collision event: {other.name}");
         if (other.CompareTag("Cherry"))
         {
             OnPacCherryCollide?.Invoke();

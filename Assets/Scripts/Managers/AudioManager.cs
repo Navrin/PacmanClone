@@ -87,10 +87,13 @@ public class AudioManager : MonoBehaviour
     private void OnDestroy()
     {
        StopAllCoroutines(); 
-       levelState.OnGhostScared -= GhostScared;
-       levelState.OnGhostEliminated -= GhostElim;
-       levelState.OnGhostRecovered -= GhostRecovered;
-       levelState.OnGhostRevived -= GhostRevived;
+       
+        levelState.OnGhostScared -= GhostScared;
+        levelState.OnGhostEliminated -= GhostElim;
+        levelState.OnGhostRecovered -= GhostRecovered;
+        levelState.OnGhostRevived -= GhostRevived;
+        levelState.OnLifeChange -= PacDeath;
+        levelState.OnGameRestart -= OnRound;
     }
 
     void MuteOthers(AudioSource keepTrack)

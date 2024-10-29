@@ -24,6 +24,7 @@ public class CherryController : MonoBehaviour
     {
         manager = GetComponent<LevelStateManager>();
         tilemap = manager.tilemap;
+        manager.OnGameRestart += Reset;
         
         bounds = tilemap.cellBounds;
         _cam = Camera.main;
@@ -39,12 +40,20 @@ public class CherryController : MonoBehaviour
         StartCoroutine(nameof(SpawnCherry));
     }
 
+    public void Reset()
+    {
+        StopCoroutine(nameof(SpawnCherry));
+        DestroyCherry();
+        StartCoroutine(nameof(SpawnCherry));
+    }
+
     public void OnDisable()
     {
         StopAllCoroutines();
+        manager.OnGameRestart -= Reset;
     }
 
-    Vector2 RandomBoundedPoint()
+    private Vector2 RandomBoundedPoint()
     {
         var x = Random.Range(bounds.min.x, bounds.max.x);
         var y  = Random.Range(bounds.min.y, bounds.max.y);
@@ -60,13 +69,14 @@ public class CherryController : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitUntil(() => manager.GameActive);
             yield return new WaitForSeconds(10f);
             var spawn = RandomBoundedPoint();
             currentCherry = Instantiate(CherryPrefab, spawn, Quaternion.identity);
             var tweener = currentCherry.GetComponent<MoveTweener>();
 
             var antiSpawn = new Vector2(-spawn.x, -spawn.y);
-            Debug.Log($"{spawn} -> {antiSpawn}, {tweener.TweenComplete()}");
+            // Debug.Log($"{spawn} -> {antiSpawn}, {tweener.TweenComplete()}");
             tweener.RequestMove(antiSpawn, 15f);
             
             

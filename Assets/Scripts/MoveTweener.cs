@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,55 +19,6 @@ public class TweenRequest
     }
 }
 
-public enum Direction
-{
-    North,
-    East,
-    South,
-    West
-}
-
-public static class DirectionMethods
-{
-    public static Vector3 ToVec(this Direction direction)
-    {
-        return direction switch
-        {
-            Direction.North => new Vector3(0, 1, 0),
-            Direction.East => new Vector3(1, 0, 0),
-            Direction.South => new Vector3(0, -1, 0),
-            Direction.West => new Vector3(-1, 0, 0),
-            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
-        };
-    }
-
-    public static float ToPSAngle(this Direction direction)
-    {
-        return direction switch
-        {
-            Direction.East => 0f,
-            Direction.North => 90f,
-            Direction.West => 180f,
-            Direction.South => 270f,
-        };
-    }
-
-    private static readonly int MoveNorth = Animator.StringToHash("MoveNorth");
-    private static readonly int MoveEast = Animator.StringToHash("MoveEast");
-    private static readonly int MoveSouth = Animator.StringToHash("MoveSouth");
-    private static readonly int MoveWest = Animator.StringToHash("MoveWest");
-    public static int AnimTrigger(this Direction direction)
-    {
-        return direction switch
-        {
-            Direction.North => MoveNorth,
-            Direction.East => MoveEast,
-            Direction.South => MoveSouth,
-            Direction.West => MoveWest,
-            _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
-        };
-    }
-}
 public class MoveTweener : MonoBehaviour
 {
     public Transform moveTarget;
@@ -116,7 +66,12 @@ public class MoveTweener : MonoBehaviour
         if (_activeTween != null) return;
 
         // change to enqueue 
+        RequestMoveForce(position, time);
         
+    }
+
+    public void RequestMoveForce(Vector2 position, float time)
+    {
         _activeTween = new TweenRequest(
             moveTarget.position,
             position,

@@ -104,6 +104,16 @@ public class HUDStateController : MonoBehaviour
         exitGame.onClick.AddListener(ExitGame);
 
     }
+    
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        _stateManager.OnGameLoaded -= OnGameLoad;
+        _stateManager.OnGhostScared -= OnGhostScared;
+        _stateManager.OnLifeChange -= OnLifeChange;
+        _stateManager.OnScoreChange -= OnScoreChange;
+        _stateManager.OnGameOver -= GameOverScreen;
+    }
 
     private void GameOverScreen()
     {
@@ -115,7 +125,8 @@ public class HUDStateController : MonoBehaviour
     {
         StartCoroutine(RoundStartAnim());
     }
-    
+
+
 
     private void ExitGame()
     {
@@ -134,7 +145,6 @@ public class HUDStateController : MonoBehaviour
     private void OnLifeChange(int livesLeft)
     {
         var livesHidden = _hearts.Length - livesLeft;
-        Debug.Log($"{livesHidden} {livesLeft}");
         
         for (var i = 0; i < livesHidden; i++)
         {

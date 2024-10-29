@@ -51,8 +51,8 @@ public class GameScoreState
     {
         
         var span = GameTime(time);
-        Debug.Log($"AccTime {_accumulatedTime} ");
-        Debug.Log($"{span}");
+        // Debug.Log($"AccTime {_accumulatedTime} ");
+        // Debug.Log($"{span}");
 
         _timerPaused = true;
         _accumulatedTime += (float) span.TotalSeconds;
@@ -61,7 +61,7 @@ public class GameScoreState
 
     public void ResumeTimer(float time)
     {
-        Debug.Log($"AccTime {_accumulatedTime} ");
+        // Debug.Log($"AccTime {_accumulatedTime} ");
         _timerPaused = false; 
         _lastTimeStamp = time;
     }
@@ -75,7 +75,6 @@ public class GameScoreState
 
     public void ChangeLives(bool death)
     {
-        Debug.Log($"CHANGING LIFE AMOUNT PRIOR {Lives}");
         Lives += death ? -1 : 1;
     }
     public void AddScore(ScoringEvent scoreEvent)
@@ -109,6 +108,7 @@ public class LevelStateManager : MonoBehaviour
 
     public Vector3 spawnPos;
 
+
     private AudioManager musicController;
     
     private PacStudentController pacController;
@@ -123,7 +123,8 @@ public class LevelStateManager : MonoBehaviour
     public float GhostScaredStart { get; private set; }
 
     public int GhostScaredRemainingTime => GhostScaredTotalTime - Mathf.FloorToInt(Time.time - GhostScaredStart);
-        
+    public Vector3Int CurrentPacPosition => pacController.PacPosition;
+    
     public static readonly int GhostScaredTotalTime = 10;
     public delegate void OnGameActiveEvent();
     public event OnGameActiveEvent OnGameActive;
@@ -336,7 +337,7 @@ public class LevelStateManager : MonoBehaviour
     private void OnSceneChange(Scene scene1, Scene scene2)
     {
         // TODO: don't use build index hardcoded values
-        Debug.Log($"Scene changed from {scene1.name} -> {scene2.name}");
+        // Debug.Log($"Scene changed from {scene1.name} -> {scene2.name}");
         if (scene2.buildIndex == 1) StartCoroutine(SyncLevelState());
     }
     
