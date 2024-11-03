@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class PacStudentController : MonoBehaviour, MainControls.IGameActions
@@ -115,6 +111,23 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
         levelState.OnGameRestart += GameRestart;
     }
 
+    private void OnDestroy()
+    {
+        if (levelState != null)
+        {
+            levelState.OnGameActive -= OnGameStart;
+            levelState.OnLifeChange -= PacDeathEvent;
+            levelState.OnGameExit -= OnGameExit;
+            levelState.OnGameRestart -= GameRestart;
+        }
+
+        if (moveTweener != null)
+        {
+            moveTweener.OnTweenComplete -= OnPacMoveComplete;
+            moveTweener.OnTweenHalfComplete -= OnTweenMidpoint;
+        }
+    }
+
     private void GameRestart()
     {
         OnRespawn();
@@ -156,11 +169,11 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
     }
 
 
-    public void SnapToGrid(Transform transform)
+    public void SnapToGrid(Transform targetTransform)
     {
-        var pos = _tilemap.WorldToCell(transform.position);
+        var pos = _tilemap.WorldToCell(targetTransform.position);
         var snapped = _tilemap.GetCellCenterWorld(pos);
-        transform.position = snapped;
+        targetTransform.position = snapped;
         // PacPosition = _tilemap.WorldToCell(transform.position);
 
     }
@@ -217,7 +230,7 @@ public class PacStudentController : MonoBehaviour, MainControls.IGameActions
             }
             
             return;
-        };
+        }
 
         _targetTileType = tile;
         // moveTweener.RequestMove(direction);

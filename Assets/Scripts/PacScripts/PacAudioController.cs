@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -27,9 +24,16 @@ public class PacAudioController : MonoBehaviour
         controller.OnPacDeath += OnDeath;
     }
 
+    void OnDestroy()
+    {
+        Destroy(audioOneShot);
+    }
+
     private void OnDeath()
     {
-        moveSource.Stop();
+        if (moveSource != null)
+            moveSource.Stop();
+        
         audioOneShot.PlayOneShot(sfx.death);
     }
 

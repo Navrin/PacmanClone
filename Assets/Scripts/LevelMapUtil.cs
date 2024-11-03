@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,31 +9,29 @@ using UnityEngine.Tilemaps;
 
 public class LevelMapUtil
 {
-    public BoundsInt GhostSpawnArea = new BoundsInt();
+    public BoundsInt GhostSpawnArea;
 
     private LevelMapUtil()
     {
         GhostSpawnArea.SetMinMax(new Vector3Int(-4, 2,0), new Vector3Int(3, -2, 10000));
     }
-    static LevelMapUtil Instance;
+    static LevelMapUtil _instance;
 
-    public BoundsInt cellBounds;
+    public BoundsInt CellBounds;
     private Tilemap _tilemapRef;
     
-    private Vector2Int min => (Vector2Int)cellBounds.min;
+    // private Vector2Int Min => (Vector2Int)cellBounds.min;
     
-    private Vector2Int center = new Vector2Int(0, 0);
-
-    private int[,] levelMap;
+    private int[,] _levelMap;
     
     public static LevelMapUtil GetInstance()
     {
-        if (Instance == null)
+        if (_instance == null)
         {
-            LevelMapUtil.Instance = new LevelMapUtil();
+            LevelMapUtil._instance = new LevelMapUtil();
         }
 
-        return Instance;
+        return _instance;
     }
 
     public Vector3Int GetPosFromTransform(Transform transform)
@@ -44,15 +41,15 @@ public class LevelMapUtil
     public void ParseMap(Tilemap tilemap, Tileset tileset)
     {
         _tilemapRef = tilemap;
-        cellBounds = tilemap.cellBounds;
-        levelMap = new int[cellBounds.size.y, cellBounds.size.x];
+        CellBounds = tilemap.cellBounds;
+        _levelMap = new int[CellBounds.size.y, CellBounds.size.x];
         
-        for (var xi =0; xi <cellBounds.size.x; xi++)
-        for (var yi = 0; yi < cellBounds.size.y; yi++)
+        for (var xi =0; xi <CellBounds.size.x; xi++)
+        for (var yi = 0; yi < CellBounds.size.y; yi++)
         {
-            var x = xi + cellBounds.xMin;
-            var y = yi + cellBounds.yMin;
-            levelMap[yi, xi] = tileset.TileToMap(tilemap.GetTile(new Vector3Int(x, y, 0)));
+            var x = xi + CellBounds.xMin;
+            var y = yi + CellBounds.yMin;
+            _levelMap[yi, xi] = tileset.TileToMap(tilemap.GetTile(new Vector3Int(x, y, 0)));
             
         }
 
@@ -60,24 +57,24 @@ public class LevelMapUtil
 
     public int Get(int x, int y)
     {
-        if (levelMap == null) throw new Exception("LevelMapUtil.Get was called but level map is null");
+        if (_levelMap == null) throw new Exception("LevelMapUtil.Get was called but level map is null");
         var point = TranslatePoint(x, y);
 
-        return levelMap[point.x, point.y];
+        return _levelMap[point.x, point.y];
     }
 
     private Vector2Int TranslatePoint(int x, int y)
     {
-        var point = new Vector2Int(x + Math.Abs(cellBounds.xMin), y + Math.Abs(cellBounds.yMin));
+        var point = new Vector2Int(x + Math.Abs(CellBounds.xMin), y + Math.Abs(CellBounds.yMin));
         return point;
     }
 
-    public int? GetChecked(int x, int y)
+    private int? GetChecked(int x, int y)
     {
         var point = TranslatePoint(x, y);
-        if (cellBounds.Contains((Vector3Int)new Vector3Int(x, y, 0)))
+        if (CellBounds.Contains(new Vector3Int(x, y, 0)))
         {
-            return levelMap[point.y, point.x];
+            return _levelMap[point.y, point.x];
         }
         return null;
     }
@@ -102,13 +99,13 @@ public class LevelMapUtil
             if (!tile.HasValue) continue;
             
         
-            if (CheckMask(solidWallMask, tile.Value)) continue;
+            if (CheckMask(SolidWallMask, tile.Value)) continue;
             outFlag |= (DirectionFlag)dir;
         } 
         return outFlag;
     }
 
-    public List<Vector2Int> GetValidNeighbourTiles(Vector2Int pos, Direction? preventBackstep, bool blockSpawnArea = true)
+    private List<Vector2Int> GetValidNeighbourTiles(Vector2Int pos, Direction? preventBackstep, bool blockSpawnArea = true)
     {
         var flag = GetValidMovements(pos.x, pos.y, blockSpawnArea);
         if (preventBackstep.HasValue)
@@ -126,21 +123,21 @@ public class LevelMapUtil
     /**
      * TODO: remove these from the pac controller and centralise behaviour
      */
-    private readonly int solidWallMask =
+    private const int SolidWallMask =
         (1 << TileType.OutsideCorner
         | 1 << TileType.OutsideWall
         | 1 << TileType.InsideCorner
         | 1 << TileType.InsideWall);
 
-    private readonly int pickupMask =
-        (1 << TileType.Pellet
-         | 1 << TileType.PowerUp);
+    // private const int pickupMask =
+    //     (1 << TileType.Pellet
+    //      | 1 << TileType.PowerUp);
     private static bool CheckMask(int mask, int tile)
     {
         return (mask & (1 << tile)) > 0;
     }
 
-    protected static void Path(Dictionary<Vector2Int, Vector2Int> paths, Vector2Int start, ref Stack<Vector2Int> points)
+    private static void Path(Dictionary<Vector2Int, Vector2Int> paths, Vector2Int start, ref Stack<Vector2Int> points)
     {
         points.Push(start);
         var current = start; 
@@ -159,13 +156,12 @@ public class LevelMapUtil
         Func<Vector2Int, Vector2Int, float> heuristic = null,
         bool blockSpawnArea = true)
     {
-        if (heuristic == null) heuristic = Vector2Int.Distance;
+        heuristic ??= Vector2Int.Distance;
         
         // var openSet = new WeightedQueue<Vector2Int, float>(0);
         // openSet.Insert(start, heuristic(start, start));
-        var openSet = new List<Vector2Int>();
-        openSet.Add(start);
-        
+        var openSet = new List<Vector2Int> { start };
+
         var fscore = new Dictionary<Vector2Int, float> { { start, 0 } };
 
         var cameFrom = new Dictionary<Vector2Int, Vector2Int>();

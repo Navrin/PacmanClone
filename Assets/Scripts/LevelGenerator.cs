@@ -1,13 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Unity.Mathematics;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Debug = UnityEngine.Debug;
-using System.Runtime.CompilerServices; 
+
 internal static class TileType
 {
     public const int Empty = 0;
@@ -69,11 +65,11 @@ public class LevelGenerator : MonoBehaviour
         {0,0,0,0,0,0,5,0,0,0,4,0,0,0},
     };
 
-    internal int[,] FullLevelMap { get; private set; }
+    // internal int[,] FullLevelMap { get; private set; }
 
     void Start()
     {
-        FullLevelMap = new int[_levelMap.GetLength(1)*2, _levelMap.GetLength(0)*2];
+        // FullLevelMap = new int[_levelMap.GetLength(1)*2, _levelMap.GetLength(0)*2];
         FixAllTileRotations();
     }
 
@@ -107,7 +103,7 @@ public class LevelGenerator : MonoBehaviour
             5 => tileset.pellet,
             6 => tileset.powerUp,
             7 => tileset.junction,
-            _ => throw new System.ArgumentException($"Invalid tilemap kind {kind}")
+            _ => throw new ArgumentException($"Invalid tilemap kind {kind}")
         }
         ;
     }
@@ -197,7 +193,7 @@ public class LevelGenerator : MonoBehaviour
     // otherwise the quarters cannot interact with each other.
     int[,] CalculateAdjacentTiles(int tileX, int tileY)
     {
-        var tile = tilemap.GetTile(new Vector3Int(tileX, tileY, 0));
+        // var tile = tilemap.GetTile(new Vector3Int(tileX, tileY, 0));
 
         var bounds = tilemap.cellBounds;
 

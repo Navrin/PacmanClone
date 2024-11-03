@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public class TweenRequest
 {
@@ -130,7 +128,6 @@ public class MoveTweener : MonoBehaviour
             {
                 _activeTween = null;
                 OnTweenComplete?.Invoke();
-                return;
             }
         }
     }

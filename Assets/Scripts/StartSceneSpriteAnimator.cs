@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +6,16 @@ using Random = UnityEngine.Random;
 
 public class StartSceneSpriteAnimator : MonoBehaviour
 {
+    private static readonly int DirectionManaged = Animator.StringToHash("DirectionManaged");
+    private static readonly int Moving = Animator.StringToHash("Moving");
+    private static readonly int MoveEast = Animator.StringToHash("MoveEast");
     public GameObject pacStudent;
     public GameObject[] ghosts;
     private List<GhostAnimationController> _ghostControllers = new List<GhostAnimationController>();
-    private GameObject _pacSprite;
+    // private GameObject _pacSprite;
     private MoveTweener _pacTweener;
     private Animator _pacAnimator;
-    private Quaternion _rotate;
+    // private Quaternion _rotate;
     
     private Camera _cam;
     private Bounds _bounds;
@@ -22,10 +24,10 @@ public class StartSceneSpriteAnimator : MonoBehaviour
     {
         _pacTweener = pacStudent.GetComponent<MoveTweener>();
         _pacAnimator = pacStudent.GetComponent<Animator>();
-        _pacSprite = pacStudent.transform.GetChild(0).gameObject;
-        _rotate = new Quaternion();
-        _pacAnimator.SetTrigger("Moving");
-        _pacAnimator.SetBool("DirectionManaged", true);
+        // _pacSprite = pacStudent.transform.GetChild(0).gameObject;
+        // _rotate = new Quaternion();
+        _pacAnimator.SetTrigger(Moving);
+        _pacAnimator.SetBool(DirectionManaged, true);
         
         _cam = Camera.main!;
         _bounds = new Bounds();
@@ -34,7 +36,7 @@ public class StartSceneSpriteAnimator : MonoBehaviour
             var controller = ghost.GetComponent<GhostAnimationController>();
             controller.GetComponent<GhostController>().SyncProps();
             controller.moveTweener.OnTweenStart = null;
-            controller.anim.SetTrigger("MoveEast");
+            controller.anim.SetTrigger(MoveEast);
             _ghostControllers.Add(controller);
         }
         
@@ -48,10 +50,6 @@ public class StartSceneSpriteAnimator : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     IEnumerator PacAnimationCycle()
     {

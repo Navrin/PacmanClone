@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
@@ -51,7 +50,7 @@ public static class DirectionFlagMethods
 
 public static class DirectionMethods
 {
-    public static readonly Array AllDirections =Direction.GetValues(typeof(Direction));
+    public static readonly Array AllDirections =Enum.GetValues(typeof(Direction));
 
     public static Direction FromVec(Vector2Int vec)
     {
@@ -101,6 +100,7 @@ public static class DirectionMethods
             Direction.North => 90f,
             Direction.West => 180f,
             Direction.South => 270f,
+            _ => 0f,
         };
     }
 

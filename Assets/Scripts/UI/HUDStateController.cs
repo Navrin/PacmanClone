@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class HUDStateController : MonoBehaviour
@@ -162,7 +159,7 @@ public class HUDStateController : MonoBehaviour
     {
         if (_setupError) return;
 
-        if (_stateManager.GameActive)
+        if (_stateManager.GameActive && _stateManager.scoreState is not null)
         {
             var span = _stateManager.scoreState.GameTime(Time.time);
             var fmt = span.Seconds % 2 == 0 ? GameTimeFormat : GameTimeFormatBlink;
@@ -170,10 +167,10 @@ public class HUDStateController : MonoBehaviour
 
             _gameTimeText.text = string.Format(GameTimeMonoTemplate, timeFormatted);
         }
-        // else
-        // {
-        //     _gameTimeText.text = "00:00:00";
-        // }
+        else
+        {
+            _gameTimeText.text = "00:00:00";
+        }
 
         if (_displayedScore != _targetScore && Time.frameCount % 15 == 0)
         {

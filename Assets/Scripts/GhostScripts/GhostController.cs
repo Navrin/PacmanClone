@@ -55,8 +55,8 @@ public abstract class GhostBehaviour
 
     public bool CheckMoveOutBounds(Vector2Int nextPos)
     {
-        var outsideLeftBounds = nextPos.x < LevelUtil.cellBounds.xMin;
-        var outsideRightBounds = nextPos.x >= LevelUtil.cellBounds.xMax;
+        var outsideLeftBounds = nextPos.x < LevelUtil.CellBounds.xMin;
+        var outsideRightBounds = nextPos.x >= LevelUtil.CellBounds.xMax;
         return outsideLeftBounds || outsideRightBounds;
     }
 
@@ -96,7 +96,7 @@ public abstract class GhostBehaviour
         if (LevelUtil.GhostSpawnArea.Contains((Vector3Int)currentPos))
         {
             Stack<Vector2Int> points = new Stack<Vector2Int>();
-            var path = LevelUtil.NavigateTowardsGoal(
+            LevelUtil.NavigateTowardsGoal(
                 currentPos, 
                 new Vector2Int(0, currentPos.y > 0 ? 3 : -3),
                 ref points, 
@@ -218,7 +218,7 @@ class Ghost4Behaviour : GhostBehaviour
 
         if (_points.Count <= 0)
         {
-            var foundPath = LevelUtil.NavigateTowardsGoal(
+            LevelUtil.NavigateTowardsGoal(
                 currentPos, GetNextTarget(), ref _points, currentDirection != 0 ? currentDirection.AntiDirection() : null
                 
                 // LevelUtil.GhostSpawnArea.Contains((Vector3Int)playerPos) ? null : ((a, b) =>

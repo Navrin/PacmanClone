@@ -37,7 +37,7 @@ public class GameScoreState
     private float _accumulatedTime = 0.0f;
         
     // public float StartTime { get; set; }
-    private float _lastTimeStamp = -1;
+    private float _lastTimeStamp;
     private bool _timerPaused = false;
     
     public TimeSpan GameTime(float current)
@@ -100,6 +100,13 @@ public class GameScoreState
         
         return JsonUtility.FromJson<HighScore>(highscore);
     }
+
+    public void KillTimer()
+    {
+        _accumulatedTime = 0.0f;
+        _timerPaused = true;
+    }
+
 }
 
 public class LevelStateManager : MonoBehaviour
@@ -117,10 +124,11 @@ public class LevelStateManager : MonoBehaviour
 
     public GameScoreState scoreState = null;
 
-    private bool _active = false;
-    public float StartTime { get; private set; }
+    // private bool _active = false;
+    // public float StartTime { get; private set; }
     public bool GameActive { get; private set; }
-    public float GhostScaredStart { get; private set; }
+
+    public float GhostScaredStart { get; private set; } = -20;
 
     public int GhostScaredRemainingTime => GhostScaredTotalTime - Mathf.FloorToInt(Time.time - GhostScaredStart);
     public Vector3Int CurrentPacPosition => pacController.PacPosition;
@@ -199,7 +207,7 @@ public class LevelStateManager : MonoBehaviour
         _powerupsLeft = pacController.levelGenerator.powerupCount;
         _pelletsLeft = pacController.levelGenerator.pelletCount;
         
-        _active = true;
+        // _active = true;
         cherryController.Ready();
 
         // StopCoroutine(nameof(SyncLevelState));
@@ -280,7 +288,7 @@ public class LevelStateManager : MonoBehaviour
 
     private void OnPacCollectItem(Vector3Int pos, int kind)
     {
-        var kindName = kind == TileType.Pellet ? "Pellet" : "Powerup";
+        // var kindName = kind == TileType.Pellet ? "Pellet" : "Powerup";
         // Debug.Log($"Pac picking up item at {pos}, kind {kindName}");
         
         // todo handle powerups
@@ -368,13 +376,18 @@ public class LevelStateManager : MonoBehaviour
 
     private void EndGameInactive()
     {
-        StartTime = -1;
+        // StartTime = -1;
         OnGameExit?.Invoke();
         cherryController.enabled=false;
+        
+        scoreState.PauseTimer(Time.time);
+        scoreState.KillTimer();
+        Destroy(pacController.gameObject);
         // scoreState.EndTime = Time.time;
         StopAllCoroutines();
+        scoreState = null;
         // todo : add saving 
-        
+
     }
 
     public void RequestExitGame()

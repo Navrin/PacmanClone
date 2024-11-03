@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
+using Debug = System.Diagnostics.Debug;
 using Random = UnityEngine.Random;
 
 public class CherryController : MonoBehaviour
@@ -18,6 +16,7 @@ public class CherryController : MonoBehaviour
     private Camera _cam;
     private Tilemap tilemap;
     private Bounds _camBounds;
+    private bool _active = false;
 
     // Start is called before the first frame update
     public void Ready()
@@ -25,11 +24,12 @@ public class CherryController : MonoBehaviour
         manager = GetComponent<LevelStateManager>();
         tilemap = manager.tilemap;
         manager.OnGameRestart += Reset;
-        
+        _active = true;
         bounds = tilemap.cellBounds;
         _cam = Camera.main;
         _camBounds = new Bounds();
-        
+
+        Debug.Assert(_cam != null, nameof(_cam) + " != null");
         _camBounds.SetMinMax(
             _cam.ScreenToWorldPoint(Vector2.zero),
             _cam.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height))
@@ -42,8 +42,10 @@ public class CherryController : MonoBehaviour
 
     public void Reset()
     {
+        _active = false;
         StopCoroutine(nameof(SpawnCherry));
         DestroyCherry();
+        _active = true; 
         StartCoroutine(nameof(SpawnCherry));
     }
 
@@ -69,6 +71,7 @@ public class CherryController : MonoBehaviour
     {
         while (true)
         {
+            if (!_active) break;
             yield return new WaitUntil(() => manager.GameActive);
             yield return new WaitForSeconds(10f);
             var spawn = RandomBoundedPoint();
@@ -87,6 +90,7 @@ public class CherryController : MonoBehaviour
                 Destroy(currentCherry);
             }
         }
+        yield return null;
     }
 
     public void DestroyCherry()
